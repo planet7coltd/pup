@@ -6,6 +6,7 @@ import { Switch, Route } from 'react-router-dom';
 import { Grid } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
+import i18n from 'meteor/universe:i18n';
 
 import Navigation from '../../components/Navigation';
 
@@ -48,14 +49,20 @@ import getUserName from '../../../modules/getUserName';
 import Styles from './styles';
 
 class App extends React.Component {
-  state = { ready: false, afterLoginPath: null };
+  state = { ready: false, afterLoginPath: null, locale: null };
 
   componentDidMount() {
     this.setPageReady();
+    this.setPageLocale(i18n.getLocale());
+    i18n.onChangeLocale(this.setPageLocale);
   }
 
   setPageReady = () => {
     this.setState({ ready: true });
+  };
+
+  setPageLocale = (locale) => {
+    this.setState({ locale });
   };
 
   setAfterLoginPath = (afterLoginPath) => {
@@ -65,7 +72,7 @@ class App extends React.Component {
   render() {
     const { props, state, setAfterLoginPath } = this;
     return (
-      <Styles.App ready={this.state.ready} loading={props.loading}>
+      <Styles.App ready={state.ready} loading={props.loading}>
         {props.authenticated && (
           <VerifyEmailAlert
             userId={props.userId}
