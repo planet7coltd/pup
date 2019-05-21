@@ -111,52 +111,50 @@ class AdminUserProfile extends React.Component {
             {user && (
               <Row>
                 <Col xs={12} md={6}>
-                  {user &&
-                    user.name && (
-                      <Row>
-                        <Col xs={6}>
-                          <FormGroup>
-                            <ControlLabel>First Name</ControlLabel>
-                            <input
-                              disabled={user && user.oAuthProvider}
-                              type="text"
-                              name="firstName"
-                              className="form-control"
-                              defaultValue={user && user.name && user.name.first}
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col xs={6}>
-                          <FormGroup>
-                            <ControlLabel>Last Name</ControlLabel>
-                            <input
-                              disabled={user && user.oAuthProvider}
-                              type="text"
-                              name="lastName"
-                              className="form-control"
-                              defaultValue={user && user.name && user.name.last}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    )}
-                  {user &&
-                    user.username && (
-                      <Row>
-                        <Col xs={12}>
-                          <FormGroup>
-                            <ControlLabel>Username</ControlLabel>
-                            <input
-                              disabled={user && user.oAuthProvider}
-                              type="text"
-                              name="username"
-                              className="form-control"
-                              defaultValue={user && user.username}
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    )}
+                  {user && user.name && (
+                    <Row>
+                      <Col xs={6}>
+                        <FormGroup>
+                          <ControlLabel>First Name</ControlLabel>
+                          <input
+                            disabled={user && user.oAuthProvider}
+                            type="text"
+                            name="firstName"
+                            className="form-control"
+                            defaultValue={user && user.name && user.name.first}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col xs={6}>
+                        <FormGroup>
+                          <ControlLabel>Last Name</ControlLabel>
+                          <input
+                            disabled={user && user.oAuthProvider}
+                            type="text"
+                            name="lastName"
+                            className="form-control"
+                            defaultValue={user && user.name && user.name.last}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  )}
+                  {user && user.username && (
+                    <Row>
+                      <Col xs={12}>
+                        <FormGroup>
+                          <ControlLabel>Username</ControlLabel>
+                          <input
+                            disabled={user && user.oAuthProvider}
+                            type="text"
+                            name="username"
+                            className="form-control"
+                            defaultValue={user && user.username}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  )}
                   <Row>
                     <Col xs={12}>
                       <FormGroup>
@@ -188,48 +186,47 @@ class AdminUserProfile extends React.Component {
                       </FormGroup>
                     </Col>
                   </Row>
-                  {user &&
-                    !user.oAuthProvider && (
-                      <Row>
-                        <Col xs={12}>
-                          <FormGroup>
-                            <ControlLabel>
-                              Password
-                              <Checkbox
-                                inline
-                                checked={this.state.showPassword}
-                                className="pull-right"
-                                onChange={() =>
-                                  this.setState({
-                                    showPassword: !this.state.showPassword,
-                                  })
-                                }
-                              >
-                                Show Password
-                              </Checkbox>
-                            </ControlLabel>
-                            <InputGroup>
-                              <input
-                                type={this.state.showPassword ? 'text' : 'password'}
-                                name="password"
-                                className="form-control"
-                                autoComplete="off"
-                                value={this.state.password}
-                                onChange={(event) => {
-                                  this.setState({ password: event.target.value });
-                                }}
-                              />
-                              <InputGroup.Button>
-                                <Button onClick={this.generatePassword}>
-                                  <Icon iconStyle="solid" icon="refresh" /> Generate
-                                </Button>
-                              </InputGroup.Button>
-                            </InputGroup>
-                            <InputHint>Use at least six characters.</InputHint>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    )}
+                  {user && !user.oAuthProvider && (
+                    <Row>
+                      <Col xs={12}>
+                        <FormGroup>
+                          <ControlLabel>
+                            Password
+                            <Checkbox
+                              inline
+                              checked={this.state.showPassword}
+                              className="pull-right"
+                              onChange={() =>
+                                this.setState((prevState) => ({
+                                  showPassword: !prevState.showPassword,
+                                }))
+                              }
+                            >
+                              Show Password
+                            </Checkbox>
+                          </ControlLabel>
+                          <InputGroup>
+                            <input
+                              type={this.state.showPassword ? 'text' : 'password'}
+                              name="password"
+                              className="form-control"
+                              autoComplete="off"
+                              value={this.state.password}
+                              onChange={(event) => {
+                                this.setState({ password: event.target.value });
+                              }}
+                            />
+                            <InputGroup.Button>
+                              <Button onClick={this.generatePassword}>
+                                <Icon iconStyle="solid" icon="refresh" /> Generate
+                              </Button>
+                            </InputGroup.Button>
+                          </InputGroup>
+                          <InputHint>Use at least six characters.</InputHint>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  )}
                   <Button type="submit" bsStyle="success">
                     {user ? 'Save Changes' : 'Create User'}
                   </Button>

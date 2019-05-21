@@ -22,12 +22,14 @@ class AdminUsersList extends React.Component {
     for (let pageNumber = 1; pageNumber <= pagesToGenerate; pageNumber += 1) {
       pages.push(
         <li
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
           role="button"
           key={`pagination_${pageNumber}`}
           className={pageNumber === currentPage ? 'active' : ''}
           onClick={() => onChangePage(pageNumber)}
           onKeyDown={() => onChangePage(pageNumber)}
         >
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <a href="#" role="button" onClick={(event) => event.preventDefault()}>
             {pageNumber}
           </a>

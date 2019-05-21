@@ -4,7 +4,7 @@ import React from 'react';
 import SearchInput from '../../components/SearchInput';
 import AdminUsersList from '../../components/AdminUsersList';
 
-import { AdminUsersHeader } from './styles';
+import Styles from './styles';
 
 class AdminUsers extends React.Component {
   state = {
@@ -14,14 +14,14 @@ class AdminUsers extends React.Component {
   render() {
     return (
       <div className="AdminUsers">
-        <AdminUsersHeader className="page-header clearfix">
+        <Styles.AdminUsersHeader className="page-header clearfix">
           <h4 className="pull-left">Users</h4>
           <SearchInput
             placeholder="Search users..."
             value={this.state.search}
             onChange={(event) => this.setState({ search: event.target.value })}
           />
-        </AdminUsersHeader>
+        </Styles.AdminUsersHeader>
         <AdminUsersList
           search={this.state.search}
           currentPage={this.state.currentPage}

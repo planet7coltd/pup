@@ -30,9 +30,8 @@ class Comments extends React.Component {
                 </header>
                 <div>
                   {comment.split('\n').map((item, key) => (
-                    <p key={`${_id}_${key}` /* eslint-disable-line */}>
-                      {item}
-                    </p>
+                    // eslint-disable-next-line react/no-array-index-key
+                    <p key={`${_id}_${key}`}>{item}</p>
                   ))}
                 </div>
               </Comment>

@@ -49,7 +49,7 @@ const Documents = ({ data, mutate }) => (
 );
 
 Documents.propTypes = {
-  userId: PropTypes.string.isRequired,
+  // userId: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
   mutate: PropTypes.func.isRequired,
 };

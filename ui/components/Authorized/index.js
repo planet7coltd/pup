@@ -72,16 +72,14 @@ Authorized.propTypes = {
 };
 
 export default withRouter(
-  withTracker(
-    ({ allowedRoles, allowedGroup }) =>
-    // eslint-disable-line
-      Meteor.isClient
-        ? {
-            loading: Meteor.isClient ? !Roles.subscription.ready() : true,
-            userId: Meteor.userId(),
-            userRoles: Roles.getRolesForUser(Meteor.userId()),
-            userIsInRoles: Roles.userIsInRole(Meteor.userId(), allowedRoles, allowedGroup),
-          }
-        : {},
+  withTracker(({ allowedRoles, allowedGroup }) =>
+    Meteor.isClient
+      ? {
+          loading: Meteor.isClient ? !Roles.subscription.ready() : true,
+          userId: Meteor.userId(),
+          userRoles: Roles.getRolesForUser(Meteor.userId()),
+          userIsInRoles: Roles.userIsInRole(Meteor.userId(), allowedRoles, allowedGroup),
+        }
+      : {},
   )(Authorized),
 );

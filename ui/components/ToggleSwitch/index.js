@@ -12,10 +12,14 @@ class ToggleSwitch extends React.Component {
 
   toggleSwitch = (event) => {
     event.stopPropagation();
-    const toggled = !this.state.toggled;
-    this.setState({ toggled }, () => {
-      if (this.props.onToggle) this.props.onToggle(this.props.id, toggled);
-    });
+    this.setState(
+      (prevState) => ({
+        toggled: !prevState.toggled,
+      }),
+      () => {
+        if (this.props.onToggle) this.props.onToggle(this.props.id, this.state.toggled);
+      },
+    );
   };
 
   render() {

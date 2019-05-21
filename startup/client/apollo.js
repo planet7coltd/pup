@@ -1,13 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 
 import { Meteor } from 'meteor/meteor';
-import { Accounts } from 'meteor/accounts-base';
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
 import { onError } from 'apollo-link-error';
 import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
-import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
+// import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
 import { getMainDefinition } from 'apollo-utilities';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { MeteorAccountsLink } from 'meteor/apollo';

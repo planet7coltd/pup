@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Button, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { compose, graphql } from 'react-apollo';
 import styled from 'styled-components';
-import { Meteor } from 'meteor/meteor';
 import { Bert } from 'meteor/themeteorchef:bert';
 import AdminUserSettingsModal from '../../components/AdminUserSettingsModal';
 import BlankState from '../../components/BlankState';

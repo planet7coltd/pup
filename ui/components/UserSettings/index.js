@@ -11,24 +11,30 @@ class UserSettings extends React.Component {
   state = { settings: unfreezeApolloCacheValue([...this.props.settings]) };
 
   handleUpdateSetting = (setting) => {
-    const settings = [...this.state.settings];
-    const settingToUpdate = settings.find(({ _id }) => _id === setting._id);
-    settingToUpdate.value = setting.value;
+    this.setState(
+      (prevState) => {
+        const settings = [...prevState.settings];
+        const settingToUpdate = settings.find(({ _id }) => _id === setting._id);
+        settingToUpdate.value = setting.value;
 
-    if (!this.props.userId) settingToUpdate.lastUpdatedByUser = new Date().toISOString();
+        if (!this.props.userId) settingToUpdate.lastUpdatedByUser = new Date().toISOString();
 
-    this.setState({ settings }, () => {
-      delay(() => {
-        this.props.updateUser({
-          variables: {
-            user: {
-              _id: this.props.userId,
-              settings,
+        return { settings };
+      },
+      () => {
+        const { settings } = this.state;
+        delay(() => {
+          this.props.updateUser({
+            variables: {
+              user: {
+                _id: this.props.userId,
+                settings,
+              },
             },
-          },
-        });
-      }, 750);
-    });
+          });
+        }, 750);
+      },
+    );
   };
 
   renderSettingValue = (type, key, value, onChange) =>

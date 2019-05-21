@@ -8,48 +8,51 @@ import Validation from '../Validation';
 import addCommentMutation from '../../mutations/Comments.gql';
 import StyledCommentComposer from './styles';
 
-const CommentComposer = ({ mutate, documentId }) => (
-  <StyledCommentComposer>
-    <header>Add a Comment</header>
-    <Validation
-      rules={{
-        comment: {
-          required: true,
-        },
-      }}
-      messages={{
-        comment: {
-          required: "What's your comment?",
-        },
-      }}
-      submitHandler={(form) => {
-        if (Meteor.userId()) {
-          mutate({
-            variables: {
-              documentId,
-              comment: form.comment.value.trim(),
-            },
-          });
+const CommentComposer = ({ mutate, documentId }) => {
+  const formRef = React.createRef();
+  return (
+    <StyledCommentComposer>
+      <header>Add a Comment</header>
+      <Validation
+        rules={{
+          comment: {
+            required: true,
+          },
+        }}
+        messages={{
+          comment: {
+            required: "What's your comment?",
+          },
+        }}
+        submitHandler={(form) => {
+          if (Meteor.userId()) {
+            mutate({
+              variables: {
+                documentId,
+                comment: form.comment.value.trim(),
+              },
+            });
 
-          document.querySelector('[name="comment"]').value = '';
-        } else {
-          Bert.alert('Sorry, you need to be logged in to comment!', 'danger');
-        }
-      }}
-    >
-      <form ref={(form) => (this.form = form)} onSubmit={(event) => event.preventDefault()}>
-        <textarea
-          className="form-control"
-          name="comment"
-          placeholder="Have a comment about this?"
-        />
-        <Button type="submit" bsStyle="success">
-          Share
-        </Button>
-      </form>
-    </Validation>
-  </StyledCommentComposer>
-);
+            document.querySelector('[name="comment"]').value = '';
+          } else {
+            Bert.alert('Sorry, you need to be logged in to comment!', 'danger');
+          }
+        }}
+      >
+        <form ref={formRef} onSubmit={(event) => event.preventDefault()}>
+          <textarea
+            className="form-control"
+            name="comment"
+            placeholder="Have a comment about this?"
+          />
+          <Button type="submit" bsStyle="success">
+            Share
+          </Button>
+        </form>
+      </Validation>
+    </StyledCommentComposer>
+  );
+};
 
 CommentComposer.propTypes = {
   documentId: PropTypes.string.isRequired,

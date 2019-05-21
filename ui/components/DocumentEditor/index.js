@@ -6,7 +6,7 @@ import { ControlLabel, DropdownButton, MenuItem } from 'react-bootstrap';
 import { Mutation } from 'react-apollo';
 import autoBind from 'react-autobind';
 import { Bert } from 'meteor/themeteorchef:bert';
-import Icon from '../../components/Icon';
+import Icon from '../Icon';
 import { editDocument as editDocumentQuery, documents } from '../../queries/Documents.gql';
 import { updateDocument, removeDocument } from '../../mutations/Documents.gql';
 import delay from '../../../modules/delay';
