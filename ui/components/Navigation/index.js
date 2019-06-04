@@ -16,9 +16,9 @@ const Navigation = (props) => {
           <Link to="/">{Meteor.settings.public.productName}</Link>
         </Navbar.Brand>
         <Navbar.Toggle />
-        <LanguageLocale />
       </Navbar.Header>
       <Navbar.Collapse>
+        <LanguageLocale />
         {!authenticated ? <PublicNavigation /> : <AuthenticatedNavigation {...props} />}
       </Navbar.Collapse>
     </Navbar>
