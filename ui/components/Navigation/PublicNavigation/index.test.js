@@ -4,8 +4,6 @@ import renderer from 'react-test-renderer';
 import i18n from 'meteor/universe:i18n';
 import PublicNavigation from '.';
 
-jest.mock('meteor/universe:i18n');
-
 describe('PublicNavigation.js', () => {
   test('PublicNavigation renders correctly', () => {
     // arrange
