@@ -4,20 +4,26 @@ import Icon from '../Icon';
 import Styles from './styles';
 
 class ToggleSwitch extends React.Component {
-  state = { toggled: this.props.toggled };
+  constructor(props) {
+    super(props);
+    const { toggled } = props;
+    this.state = { toggled };
+  }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ toggled: nextProps.toggled });
   }
 
   toggleSwitch = (event) => {
+    const { id, onToggle } = this.props;
     event.stopPropagation();
     this.setState(
-      (prevState) => ({
-        toggled: !prevState.toggled,
+      ({ toggled }) => ({
+        toggled: !toggled,
       }),
       () => {
-        if (this.props.onToggle) this.props.onToggle(this.props.id, this.state.toggled);
+        const { toggled } = this.state;
+        if (onToggle) onToggle(id, toggled);
       },
     );
   };

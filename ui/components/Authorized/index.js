@@ -18,13 +18,13 @@ class Authorized extends React.Component {
   }
 
   checkIfAuthorized = () => {
-    const { loading, userId, userRoles, userIsInRoles, pathAfterFailure } = this.props;
+    const { history, loading, userId, userRoles, userIsInRoles, pathAfterFailure } = this.props;
 
-    if (!userId) this.props.history.push(pathAfterFailure || '/');
+    if (!userId) history.push(pathAfterFailure || '/');
 
     if (!loading && userRoles.length > 0) {
       if (!userIsInRoles) {
-        this.props.history.push(pathAfterFailure || '/');
+        history.push(pathAfterFailure || '/');
       } else {
         // Check to see if authorized is still false before setting. This prevents an infinite loop
         // when this is used within componentDidUpdate.
@@ -35,8 +35,9 @@ class Authorized extends React.Component {
 
   render() {
     const { component, path, exact, ...rest } = this.props;
+    const { authorized } = this.state;
 
-    return this.state.authorized ? (
+    return authorized ? (
       <Route
         path={path}
         exact={exact}
@@ -73,6 +74,7 @@ Authorized.propTypes = {
 
 export default withRouter(
   withTracker(({ allowedRoles, allowedGroup }) =>
+    // eslint-disable-line
     Meteor.isClient
       ? {
           loading: Meteor.isClient ? !Roles.subscription.ready() : true,

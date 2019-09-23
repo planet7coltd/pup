@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const AdminUsersHeader = styled.div`
+export default styled.div`
   h4 span {
     display: inline-block;
     padding: 2px 6px;
@@ -17,7 +17,3 @@ const AdminUsersHeader = styled.div`
     width: 200px;
   }
 `;
-
-export default {
-  AdminUsersHeader,
-};

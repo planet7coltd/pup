@@ -21,7 +21,8 @@ class AdminUserProfile extends React.Component {
   state = { showPassword: false, password: '' };
 
   handleSubmit = (form) => {
-    const existingUser = this.props.user;
+    const { user, updateUser } = this.props;
+    const existingUser = user;
     const isPasswordUser = existingUser && !existingUser.oAuthProvider;
     const password = isPasswordUser ? form.password.value : null;
     const roleCheckboxes = document.querySelectorAll('[name="role"]:checked');
@@ -30,10 +31,10 @@ class AdminUserProfile extends React.Component {
       roles.push(role.value);
     });
 
-    let user;
+    let userUpdate;
 
     if (isPasswordUser) {
-      user = {
+      userUpdate = {
         email: form.emailAddress.value,
         password,
         profile: {
@@ -47,20 +48,21 @@ class AdminUserProfile extends React.Component {
     }
 
     if (!isPasswordUser) {
-      user = {
+      userUpdate = {
         roles,
       };
     }
 
-    if (existingUser) user._id = existingUser._id;
-    this.props.updateUser({ variables: { user } }, () => this.setState({ password: '' }));
+    if (existingUser) userUpdate._id = existingUser._id;
+    updateUser({ variables: { user: userUpdate } }, () => this.setState({ password: '' }));
   };
 
   handleDeleteUser = () => {
+    const { removeUser, user } = this.props;
     if (confirm("Are you sure? This will permanently delete this user's account!")) {
-      this.props.removeUser({
+      removeUser({
         variables: {
-          _id: this.props.user._id,
+          _id: user._id,
         },
       });
     }
@@ -72,6 +74,8 @@ class AdminUserProfile extends React.Component {
 
   render() {
     const { user } = this.props;
+    const { showPassword, password } = this.state;
+
     return (
       <div className="AdminUserProfile">
         <Validation
@@ -194,12 +198,12 @@ class AdminUserProfile extends React.Component {
                             Password
                             <Checkbox
                               inline
-                              checked={this.state.showPassword}
+                              checked={showPassword}
                               className="pull-right"
                               onChange={() =>
-                                this.setState((prevState) => ({
-                                  showPassword: !prevState.showPassword,
-                                }))
+                                this.setState({
+                                  showPassword: !showPassword,
+                                })
                               }
                             >
                               Show Password
@@ -207,18 +211,19 @@ class AdminUserProfile extends React.Component {
                           </ControlLabel>
                           <InputGroup>
                             <input
-                              type={this.state.showPassword ? 'text' : 'password'}
+                              type={showPassword ? 'text' : 'password'}
                               name="password"
                               className="form-control"
                               autoComplete="off"
-                              value={this.state.password}
+                              value={password}
                               onChange={(event) => {
                                 this.setState({ password: event.target.value });
                               }}
                             />
                             <InputGroup.Button>
                               <Button onClick={this.generatePassword}>
-                                <Icon iconStyle="solid" icon="refresh" /> Generate
+                                <Icon iconStyle="solid" icon="refresh" />
+                                {' Generate'}
                               </Button>
                             </InputGroup.Button>
                           </InputGroup>

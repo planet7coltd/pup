@@ -6,19 +6,32 @@ import SEO from '../../components/SEO';
 import BlankState from '../../components/BlankState';
 import Comments from '../../components/Comments';
 import { document as documentQuery } from '../../queries/Documents.gql';
-import commentAdded from '../../subscriptions/Comments.gql';
 import parseMarkdown from '../../../modules/parseMarkdown';
 
 import { StyledViewDocument, DocumentBody } from './styles';
 
 class ViewDocument extends React.Component {
+  state = {
+    sortBy: 'newestFirst',
+  };
+
   componentWillMount() {
     const { data } = this.props;
     if (Meteor.isClient && Meteor.userId()) data.refetch();
   }
 
+  handleChangeCommentSort = (event) => {
+    const { data } = this.props;
+    event.persist();
+
+    this.setState({ sortBy: event.target.value }, () => {
+      data.refetch({ sortBy: event.target.value });
+    });
+  };
+
   render() {
     const { data } = this.props;
+    const { sortBy } = this.state;
 
     if (!data.loading && data.document) {
       return (
@@ -43,26 +56,10 @@ class ViewDocument extends React.Component {
             </React.Fragment>
           </StyledViewDocument>
           <Comments
-            subscribeToNewComments={() =>
-              data.subscribeToMore({
-                document: commentAdded,
-                variables: {
-                  documentId: data.document && data.document._id,
-                },
-                updateQuery: (existingData, { subscriptionData }) => {
-                  if (!subscriptionData.data) return existingData;
-                  const newComment = subscriptionData.data.commentAdded;
-                  return {
-                    document: {
-                      ...existingData.document,
-                      comments: [...existingData.document.comments, newComment],
-                    },
-                  };
-                },
-              })
-            }
             documentId={data.document && data.document._id}
             comments={data.document && data.document.comments}
+            sortBy={sortBy}
+            onChangeSortBy={this.handleChangeCommentSort}
           />
         </React.Fragment>
       );
@@ -90,6 +87,7 @@ export default graphql(documentQuery, {
   options: ({ match }) => ({
     variables: {
       _id: match.params._id,
+      sortBy: 'newestFirst',
     },
   }),
 })(ViewDocument);

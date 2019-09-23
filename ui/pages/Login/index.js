@@ -38,7 +38,6 @@ class Login extends React.Component {
             <Row>
               <Col xs={12}>
                 <OAuthLoginButtons
-                  services={['facebook', 'github', 'google']}
                   emailMessage={{
                     offset: 100,
                     text: 'Log In with an Email Address',
@@ -100,7 +99,9 @@ class Login extends React.Component {
                 </Button>
                 <AccountPageFooter>
                   <p>
-                    {"Don't have an account?"} <Link to="/signup">Sign Up</Link>.
+                    {"Don't have an account? "}
+                    <Link to="/signup">Sign Up</Link>
+                    {'.'}
                   </p>
                 </AccountPageFooter>
               </form>

@@ -8,33 +8,34 @@ import delay from '../../../modules/delay';
 import Styles from './styles';
 
 class UserSettings extends React.Component {
-  state = { settings: unfreezeApolloCacheValue([...this.props.settings]) };
+  constructor(props) {
+    super(props);
+    const { settings } = props;
+    this.state = { settings: unfreezeApolloCacheValue([...settings]) };
+  }
 
   handleUpdateSetting = (setting) => {
-    this.setState(
-      (prevState) => {
-        const settings = [...prevState.settings];
-        const settingToUpdate = settings.find(({ _id }) => _id === setting._id);
-        settingToUpdate.value = setting.value;
+    const { userId, updateUser } = this.props;
+    const { settings } = this.state;
+    const settingsUpdate = [...settings];
+    const settingToUpdate = settingsUpdate.find(({ _id }) => _id === setting._id);
 
-        if (!this.props.userId) settingToUpdate.lastUpdatedByUser = new Date().toISOString();
+    settingToUpdate.value = setting.value;
 
-        return { settings };
-      },
-      () => {
-        const { settings } = this.state;
-        delay(() => {
-          this.props.updateUser({
-            variables: {
-              user: {
-                _id: this.props.userId,
-                settings,
-              },
+    if (!userId) settingToUpdate.lastUpdatedByUser = new Date().toISOString();
+
+    this.setState({ settings }, () => {
+      delay(() => {
+        updateUser({
+          variables: {
+            user: {
+              _id: userId,
+              settings: settingsUpdate,
             },
-          });
-        }, 750);
-      },
-    );
+          },
+        });
+      }, 750);
+    });
   };
 
   renderSettingValue = (type, key, value, onChange) =>
@@ -65,6 +66,7 @@ class UserSettings extends React.Component {
     }[type]());
 
   render() {
+    const { isAdmin } = this.props;
     const { settings } = this.state;
     return (
       <div className="UserSettings">
@@ -83,9 +85,9 @@ class UserSettings extends React.Component {
           ) : (
             <BlankState
               icon={{ style: 'solid', symbol: 'cogs' }}
-              title={`No settings to manage ${this.props.isAdmin ? 'for this user' : 'yet'}.`}
+              title={`No settings to manage ${isAdmin ? 'for this user' : 'yet'}.`}
               subtitle={`${
-                this.props.isAdmin ? 'GDPR-specific settings intentionally excluded. ' : ''
+                isAdmin ? 'GDPR-specific settings intentionally excluded. ' : ''
               } When there are settings to manage, they'll appear here.`}
             />
           )}

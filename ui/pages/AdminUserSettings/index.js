@@ -49,6 +49,7 @@ class AdminUserSettings extends React.Component {
 
   render() {
     const { data, addUserSetting, updateUserSetting } = this.props;
+    const { showSettingsModal, currentSetting } = this.state;
     return (
       <div className="AdminUserSettings">
         <div className="page-header clearfix">
@@ -95,9 +96,9 @@ class AdminUserSettings extends React.Component {
           />
         )}
         <AdminUserSettingsModal
-          show={this.state.showSettingsModal}
+          show={showSettingsModal}
           onHide={() => this.setState({ showSettingsModal: false, currentSetting: null })}
-          setting={this.state.currentSetting}
+          setting={currentSetting}
           addUserSetting={addUserSetting}
           updateUserSetting={updateUserSetting}
         />
